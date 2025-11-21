@@ -1,97 +1,230 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Crypto Portfolio Tracker - React Native
 
-# Getting Started
+A real-time cryptocurrency portfolio tracking application built with React Native, TypeScript, Redux Toolkit, and Redux-Saga.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+### 🔐 Authentication
+- Session-based login system using AsyncStorage
+- Hardcoded credentials: `admin` / `admin123`
+- Automatic session persistence across app restarts
+- Protected navigation that redirects to login if not authenticated
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### 📊 Crypto Dashboard
+- Displays top 10 cryptocurrencies from CoinGecko API
+- Real-time price updates with automatic refresh every 60 seconds
+- Shows coin information:
+  - Coin name and symbol
+  - Logo
+  - Current price (USD)
+  - 24-hour percentage change
+  - Market capitalization
+- Global loader during initial data fetch
+- Per-coin loading indicators during refresh
+- Error handling with user-friendly error messages
+- Pull-to-refresh functionality
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### 💼 Portfolio Management
+- Add coins to portfolio with custom quantities
+- Edit quantities of existing portfolio items
+- Remove coins from portfolio
+- View total portfolio value
+- Real-time price updates for portfolio items
+- Data persisted in AsyncStorage
 
-```sh
-# Using npm
+## Tech Stack
+
+- **React Native 0.82** - Mobile UI framework
+- **TypeScript** - Type-safe development
+- **Redux Toolkit** - State management
+- **Redux-Saga** - Side effect management (API calls, polling, AsyncStorage)
+- **React Navigation** - Native navigation
+- **AsyncStorage** - Data persistence
+
+## Prerequisites
+
+Before running the app, make sure you have:
+
+1. **Node.js** >= 20
+2. **npm** or **yarn**
+3. **React Native development environment** set up:
+   - For **Android**: Android Studio, JDK, Android SDK
+   - For **iOS** (macOS only): Xcode, CocoaPods
+
+## Installation
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **For iOS (macOS only):**
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
+
+## Running the App
+
+### Start Metro Bundler
+
+First, start the Metro bundler in a terminal:
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+Or:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+```bash
+npx react-native start
+```
 
-### Android
+### Run on Android
 
-```sh
-# Using npm
+In a new terminal window:
+
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
+Or:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+npx react-native run-android
 ```
 
-Then, and every time you update your native dependencies, run:
+**Note:** Make sure you have:
+- An Android emulator running, OR
+- A physical Android device connected via USB with USB debugging enabled
 
-```sh
-bundle exec pod install
-```
+### Run on iOS (macOS only)
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+In a new terminal window:
 
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Or:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+npx react-native run-ios
+```
 
-## Step 3: Modify your app
+**Note:** Make sure you have:
+- Xcode installed
+- iOS Simulator available, OR
+- A physical iOS device connected
 
-Now that you have successfully run the app, let's make changes!
+## Usage
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Login
+1. Open the app
+2. Enter credentials:
+   - Username: `admin`
+   - Password: `admin123`
+3. Tap "Login" to authenticate
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### Dashboard
+- View top 10 cryptocurrencies
+- Data automatically refreshes every 60 seconds
+- Pull down to manually refresh
+- Add coins to portfolio by entering a quantity and tapping "Add"
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+### Portfolio
+- View all coins in your portfolio
+- Edit quantities by changing the value and tapping "Update"
+- Remove coins by tapping "Remove"
+- View total portfolio value at the top
 
-## Congratulations! :tada:
+## API Integration
 
-You've successfully run and modified your React Native App. :partying_face:
+The application uses the CoinGecko API:
 
-### Now what?
+**Endpoint:**
+```
+GET https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1
+```
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## Troubleshooting
 
-# Troubleshooting
+### Android Issues
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+1. **"SDK location not found"**
+   - Set `ANDROID_HOME` environment variable
+   - Add to `~/.bashrc` or `~/.zshrc`:
+     ```bash
+     export ANDROID_HOME=$HOME/Library/Android/sdk
+     export PATH=$PATH:$ANDROID_HOME/emulator
+     export PATH=$PATH:$ANDROID_HOME/tools
+     export PATH=$PATH:$ANDROID_HOME/tools/bin
+     export PATH=$PATH:$ANDROID_HOME/platform-tools
+     ```
 
-# Learn More
+2. **"Could not connect to development server"**
+   - Make sure Metro bundler is running
+   - Check that your device/emulator and computer are on the same network
+   - For physical device: Run `adb reverse tcp:8081 tcp:8081`
 
-To learn more about React Native, take a look at the following resources:
+3. **Build errors**
+   - Clean build: `cd android && ./gradlew clean && cd ..`
+   - Clear cache: `npm start -- --reset-cache`
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### iOS Issues
+
+1. **"Pod install failed"**
+   - Update CocoaPods: `sudo gem install cocoapods`
+   - Clean pods: `cd ios && rm -rf Pods Podfile.lock && pod install && cd ..`
+
+2. **Build errors**
+   - Clean build folder in Xcode: Product → Clean Build Folder (Shift+Cmd+K)
+   - Clear derived data
+
+### General Issues
+
+1. **Metro bundler cache issues**
+   ```bash
+   npm start -- --reset-cache
+   ```
+
+2. **Node modules issues**
+   ```bash
+   rm -rf node_modules
+   npm install
+   ```
+
+3. **Watchman issues (macOS/Linux)**
+   ```bash
+   watchman watch-del-all
+   ```
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Loader.tsx      # Loading indicators (global, inline, coin-specific)
+│   └── ErrorDisplay.tsx # Error message display component
+├── pages/              # Page components
+│   ├── Login.tsx       # Login page
+│   ├── Dashboard.tsx   # Crypto dashboard page
+│   └── Portfolio.tsx   # Portfolio management page
+├── store/              # Redux store configuration
+│   ├── store.ts        # Store setup with saga middleware
+│   ├── slices/         # Redux Toolkit slices
+│   │   ├── authSlice.ts      # Authentication state
+│   │   ├── cryptoSlice.ts    # Cryptocurrency data state
+│   │   └── portfolioSlice.ts # Portfolio state
+│   └── sagas/          # Redux-Saga side effects
+│       ├── rootSaga.ts      # Root saga combining all watchers
+│       ├── authSaga.ts      # Authentication saga
+│       ├── cryptoSaga.ts    # Crypto data fetching and polling saga
+│       └── portfolioSaga.ts # Portfolio management saga
+└── App.tsx             # Main app component with navigation
+```
+
+## License
+
+This project is part of a coding task/assessment.
